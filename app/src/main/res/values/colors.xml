@@ -5,8 +5,10 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorWhite">#fff</color>
+    <color name="colorGrey">#BEBEBE</color>
 
-    <color name="test1">#34b233</color>
+    <color name="buttonGreen">#34b233</color>
+
     <color name="test2">#4afe49</color>
     <color name="test3">#257f24</color>
     <color name="test4">#96fe95</color>
