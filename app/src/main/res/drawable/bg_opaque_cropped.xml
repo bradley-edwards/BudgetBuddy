@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/bg_cropped"></item>
+
+    <item>
+        <shape>
+            <gradient
+                android:angle="270"
+                android:centerColor="#eb22730c"
+                android:endColor="#eb124301"
+                android:startColor="#eb378e1f"
+                android:type="linear"/>
+        </shape>
+    </item>
+
+
+</layer-list>

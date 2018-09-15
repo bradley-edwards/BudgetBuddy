@@ -8,13 +8,12 @@
 
                 tools:context=".MainActivity">
 
-
     <LinearLayout
         android:id="@+id/home_layout_info"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/bg_opaque"
+        android:background="@drawable/bg_opaque_cropped"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -38,12 +37,12 @@
             android:gravity="center">
 
             <RelativeLayout
-                android:id="@+id/home_layout_recommendations"
+                android:id="@+id/home_layout_suggestions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <ImageButton
-                    android:id="@+id/home_imageButton_recommendations"
+                    android:id="@+id/home_imageButton_suggestions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -51,11 +50,12 @@
                     app:srcCompat="@drawable/ic_star"/>
 
                 <TextView
-                    android:id="@+id/home_text_recommendations"
+                    android:id="@+id/home_text_suggestions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/home_imageButton_recommendations"
+                    android:layout_below="@id/home_imageButton_suggestions"
                     android:layout_marginTop="10dp"
+                    android:text="Suggestions" />
                     android:text="Recommendations"/>
 
             </RelativeLayout>
@@ -148,11 +148,11 @@
         android:padding="20dp">
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:tools="http://schemas.android.com/tools"
-                  android:id="@+id/home_list_progress"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  tools:listitem="@layout/listview"/>
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/home_list_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/listview_home" />
 
     </RelativeLayout>
 
