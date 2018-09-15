@@ -1,4 +1,4 @@
-package com.htn.smartspend.utils;
+package com.htn.budgetbuddy.utils;
 
 import java.util.HashMap;
 import java.util.Map;

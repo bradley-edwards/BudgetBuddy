@@ -1,4 +1,4 @@
-package com.htn.smartspend;
+package com.htn.budgetbuddy;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

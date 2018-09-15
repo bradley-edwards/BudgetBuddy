@@ -1,4 +1,4 @@
-package com.htn.smartspend;
+package com.htn.budgetbuddy;
 
 import org.junit.Test;
 
