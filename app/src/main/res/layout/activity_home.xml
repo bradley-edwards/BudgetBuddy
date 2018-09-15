@@ -22,8 +22,8 @@
             android:id="@+id/home_text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FLUFFBALL"
             android:layout_gravity="center_horizontal"
+            android:text="FLUFFBALL"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -33,8 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/home_text_name"
-            android:layout_marginTop="70dp"
             android:layout_marginBottom="-100dp"
+            android:layout_marginTop="70dp"
             android:gravity="center">
 
             <RelativeLayout
@@ -139,14 +139,25 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/home_layout_list"
+        android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
         android:layout_below="@id/home_layout_info"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
         android:background="@drawable/bg_rounded"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="20dp">
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/home_list_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/listview" />
+
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
