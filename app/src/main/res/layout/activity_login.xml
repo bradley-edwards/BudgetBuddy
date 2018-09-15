@@ -3,23 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/bg_opaque_login"
     android:gravity="center"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_image_logo"/>
+
     <TextView
         android:id="@+id/login_text_username"
+        android:layout_below="@id/login_image_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="-15dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
         android:text="Login"
-        android:textColor="@color/colorAccent"
-        android:textSize="14sp" />
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/login_edit_username"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
@@ -34,9 +43,9 @@
         android:layout_below="@id/login_edit_username"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
-        android:background="@android:color/white"
+        android:background="@color/test1"
         android:text="Login"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorWhite" />
 
 
 </RelativeLayout>
