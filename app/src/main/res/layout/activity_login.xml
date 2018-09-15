@@ -26,6 +26,7 @@
         android:inputType="textEmailAddress"
         android:textColorHint="@color/colorGrey"
         android:hint="Username"
+        android:text="yuriaaderg"
         android:textColor="@color/colorWhite"
         android:layout_below="@id/login_image_logo"/>
 

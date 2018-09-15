@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorDarkGrey"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_opaque"
 
-    tools:context=".MainActivity">
+                tools:context=".MainActivity">
 
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:text="FLUFFBALL"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:id="@+id/home_layout_options"
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/bt_options"
-                    app:srcCompat="@drawable/ic_star" />
+                    app:srcCompat="@drawable/ic_star"/>
 
                 <TextView
                     android:id="@+id/home_text_recommendations"
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/home_imageButton_recommendations"
                     android:layout_marginTop="10dp"
-                    android:text="Recommendations" />
+                    android:text="Recommendations"/>
 
             </RelativeLayout>
 
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/bt_options"
-                    app:srcCompat="@drawable/ic_settings" />
+                    app:srcCompat="@drawable/ic_settings"/>
 
                 <TextView
                     android:id="@+id/home_text_settings"
@@ -82,7 +82,7 @@
                     android:layout_below="@id/home_imageButton_settings"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="Settings" />
+                    android:text="Settings"/>
 
             </RelativeLayout>
 
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/bt_options"
-                    app:srcCompat="@drawable/ic_history" />
+                    app:srcCompat="@drawable/ic_history"/>
 
                 <TextView
                     android:id="@+id/home_text_transactions"
@@ -106,12 +106,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/home_imageButton_transactions"
                     android:layout_marginTop="10dp"
-                    android:text="Transactions" />
+                    android:text="Transactions"/>
 
             </RelativeLayout>
 
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -127,37 +126,34 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_budgetbuddy" />
+            android:src="@drawable/ic_budgetbuddy"/>
 
 
         <ImageView
             android:id="@+id/home_image_budgetBuddy"
             android:layout_width="150dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_budgetbuddy_name" />
+            android:src="@drawable/ic_budgetbuddy_name"/>
 
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/home_layout_list"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="match_parent"
         android:layout_below="@id/home_layout_info"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
         android:background="@drawable/bg_rounded"
         android:orientation="horizontal"
         android:padding="20dp">
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/home_list_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/listview" />
-
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:id="@+id/home_list_progress"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  tools:listitem="@layout/listview"/>
 
     </RelativeLayout>
-
 
 </RelativeLayout>
