@@ -3,40 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/bg_opaque_login"
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/login_text_username"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="-15dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginStart="40dp"
-        android:text="Login"
-        android:textColor="@color/colorAccent"
-        android:textSize="14sp" />
+        android:id="@+id/login_image_logo"/>
+
 
     <EditText
         android:id="@+id/login_edit_username"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_person"
         android:drawablePadding="10dp"
         android:inputType="textEmailAddress"
-        android:textColor="@color/colorAccent"
-        android:layout_below="@id/login_text_username"/>
+        android:textColorHint="@color/colorGrey"
+        android:hint="Username"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/login_image_logo"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/login_button_login"
-        android:layout_width="300dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_edit_username"
         android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/white"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_round_button"
         android:text="Login"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorWhite" />
 
 
 </RelativeLayout>
