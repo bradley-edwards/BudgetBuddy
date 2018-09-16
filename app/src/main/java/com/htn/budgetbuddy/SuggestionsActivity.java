@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.htn.budgetbuddy.models.Transaction;
 import com.htn.budgetbuddy.utils.Constants;
+import com.htn.budgetbuddy.utils.TinyDB;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,15 +27,15 @@ public class SuggestionsActivity extends AppCompatActivity implements View.OnCli
 
     private Button backButton;
 
-    FirebaseDatabase database;
-    DatabaseReference userRef;
+    private TinyDB tinyDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestions);
 
-        database = FirebaseDatabase.getInstance();
+        tinyDB = new TinyDB(this);
+
         backButton = findViewById(R.id.suggestions_imageButton_leftArrow);
 
         backButton.setOnClickListener(this);
@@ -44,12 +45,12 @@ public class SuggestionsActivity extends AppCompatActivity implements View.OnCli
 
     private void getSuggestions() throws IOException {
 
-        //Create the loop for 
+
         OkHttpClient client = new OkHttpClient();
 
         Request Request = new Request.Builder()
-                .url(Constants.YELP_URL + "/businesses/search" + )
-                .addHeader("Authorization", Constants.YELP_KEY)
+                .url(Constants.YELP_URL + "/businesses/search?" + "location=" + LOCATION_VAR + "&term=")
+                .addHeader("Authorization", "Bearer " + Constants.YELP_KEY)
                 .build();
 
         client.newCall(customerRequest).enqueue(new Callback() {
