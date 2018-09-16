@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 public class SuggestionsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button backButton;
@@ -30,24 +33,23 @@ public class SuggestionsActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestions);
-        context = this;
 
         database = FirebaseDatabase.getInstance();
+        backButton = findViewById(R.id.suggestions_imageButton_leftArrow);
+
+        backButton.setOnClickListener(this);
     }
 
     @Override
 
-    private void getCustomerInfo(String username) throws IOException {
+    private void getSuggestions() throws IOException {
 
-        userRef = database.getReference("user/" + username);
-
-        final String customerId = Constants.NAME_CUSTOMERID_MAP.get(username);
-
+        //Create the loop for 
         OkHttpClient client = new OkHttpClient();
 
-        Request customerRequest = new Request.Builder()
-                .url(Constants.BASE_URL + "/customers/" + customerId)
-                .addHeader("Authorization", Constants.API_KEY)
+        Request Request = new Request.Builder()
+                .url(Constants.YELP_URL + "/businesses/search" + )
+                .addHeader("Authorization", Constants.YELP_KEY)
                 .build();
 
         client.newCall(customerRequest).enqueue(new Callback() {
@@ -66,38 +68,6 @@ public class SuggestionsActivity extends AppCompatActivity implements View.OnCli
                     public void run() {
                         try {
                             JSONObject json = new JSONObject(result).getJSONObject("result");
-
-                            if (json.has("errorMsg") &&
-                                    !json.getString("errorMsg").equalsIgnoreCase("null")) {
-                                Toast.makeText(context, json.getString("errorMsg"), Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            userRef.child("customerId").setValue(customerId);
-                            userRef.child("givenName").setValue(json.has("givenName") ? json.getString("givenName") : "");
-                            userRef.child("maidenName").setValue(json.has("maidenName") ? json.getString("maidenName") : "");
-                            userRef.child("totalIncome").setValue(json.has("totalIncome") ? json.getString("totalIncome") : "");
-                            if (json.has("maskedRelatedBankAccounts") &&
-                                    json.getJSONObject("maskedRelatedBankAccounts").has("individual")) {
-                                JSONArray bankAccounts = json.getJSONObject("maskedRelatedBankAccounts").getJSONArray("individual");
-                                List<String> bankAccountIds = new ArrayList<>();
-                                for (int i = 0; i < bankAccounts.length(); ++i) {
-                                    bankAccountIds.add(bankAccounts.getJSONObject(i).getString("accountId"));
-                                }
-                                userRef.child("bankAccounts").setValue(bankAccountIds);
-                            } else {
-                                userRef.child("bankAccounts").setValue(null);
-                            }
-                            if (json.has("maskedRelatedCreditCardAccounts") &&
-                                    json.getJSONObject("maskedRelatedCreditCardAccounts").has("individual")) {
-                                JSONArray bankAccounts = json.getJSONObject("maskedRelatedCreditCardAccounts").getJSONArray("authorized");
-                                List<String> bankAccountIds = new ArrayList<>();
-                                for (int i = 0; i < bankAccounts.length(); ++i) {
-                                    bankAccountIds.add(bankAccounts.getJSONObject(i).getString("accountId"));
-                                }
-                                userRef.child("creditCardAccounts").setValue(bankAccountIds);
-                            } else {
-                                userRef.child("creditCardAccounts").setValue(null);
-                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
