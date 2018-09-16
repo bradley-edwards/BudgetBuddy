@@ -230,6 +230,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 }
                                 tinyDB.putListTransactions("transactions", transactions);
                                 tinyDB.putListTransactions("monthTransactions", monthTransactions);
+                                getSpending();
                             } else {
                             }
                             openHomeActivity();
@@ -259,5 +260,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void openHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+    }
+    private void getSpending() {
+        ArrayList <Transaction> monthTrans = tinyDB.getListTransaction("monthTransactions");
+        double entSpent = 0;
+        double shopSpent = 0;
+        double transSpent = 0;
+        double foodSpent = 0;
+        int arrLen = monthTrans.size();
+        for (int i=0; i<arrLen; i++) {
+            String cat = monthTrans.get(i).getCategoryTags().get(0);
+            double amount = monthTrans.get(i).getCurrencyAmount();
+            if (cat == "Entertainment") {
+                entSpent += amount;
+            } else if (cat == "Home") {
+                shopSpent += amount;
+            } else if (cat == "Food and Dining") {
+                foodSpent += amount;
+            } else if (cat == "Auto and Transport") {
+                transSpent += amount;
+            }
+        }
+        tinyDB.putDouble("Entertainment", entSpent);
+        tinyDB.putDouble("Home", shopSpent);
+        tinyDB.putDouble("Food and Dining", foodSpent);
+        tinyDB.putDouble("Auto and Transport", transSpent);
     }
 }
