@@ -243,41 +243,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    public boolean sameMonth(Date date1, Date date2){
+    public boolean sameMonth(Date date1, Date date2) {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
         cal1.setTime(date1);
         cal2.setTime(date2);
         boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
         return sameDay;
     }
 
-    public int daysBetween(Date d1, Date d2){
-        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+    public int daysBetween(Date d1, Date d2) {
+        return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }
 
     private void openHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
+
     private void getSpending() {
-        ArrayList <Transaction> monthTrans = tinyDB.getListTransaction("monthTransactions");
+        ArrayList<Transaction> monthTrans = tinyDB.getListTransaction("monthTransactions");
         double entSpent = 0;
         double shopSpent = 0;
         double transSpent = 0;
         double foodSpent = 0;
         int arrLen = monthTrans.size();
-        for (int i=0; i<arrLen; i++) {
+        for (int i = 0; i < arrLen; i++) {
             String cat = monthTrans.get(i).getCategoryTags().get(0);
             double amount = monthTrans.get(i).getCurrencyAmount();
-            if (cat == "Entertainment") {
+            if (cat.equalsIgnoreCase("Entertainment")) {
                 entSpent += amount;
-            } else if (cat == "Home") {
+            } else if (cat.equalsIgnoreCase("Home")) {
                 shopSpent += amount;
-            } else if (cat == "Food and Dining") {
+            } else if (cat.equalsIgnoreCase("Food and Dining")) {
                 foodSpent += amount;
-            } else if (cat == "Auto and Transport") {
+            } else if (cat.equalsIgnoreCase("Auto and Transport")) {
                 transSpent += amount;
             }
         }

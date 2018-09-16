@@ -62,16 +62,17 @@ public class ProgressAdapter extends BaseAdapter {
             holder.name.setText(namePos);
             if (position == 0) {
                 holder.name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_dining, 0, 0, 0);
-                holder.bar.setProgress((int) (tinyDB.getDouble("Food and Dining", 0) / tinyDB.getDouble("foodBudget", 1)));
+                holder.bar.setProgress((int) ((tinyDB.getDouble("Food and Dining", 0) / tinyDB.getDouble("foodBudget", 1)) * 100));
+                System.out.println((int) ((tinyDB.getDouble("Food and Dining", 0) / tinyDB.getDouble("foodBudget", 1)) * 100));
             } else if (position == 1) {
                 holder.name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_shopping_basket, 0, 0, 0);
-                holder.bar.setProgress((int) (tinyDB.getDouble("Home", 0) / tinyDB.getDouble("shoppingBudget", 1)));
+                holder.bar.setProgress((int) ((tinyDB.getDouble("Home", 0) / tinyDB.getDouble("shoppingBudget", 1)) * 100));
             } else if (position == 2) {
                 holder.name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_videogame_asset, 0, 0, 0);
-                holder.bar.setProgress((int) (tinyDB.getDouble("Entertainment", 0) / tinyDB.getDouble("entertainmentBudget", 1)));
+                holder.bar.setProgress((int) ((tinyDB.getDouble("Entertainment", 0) / tinyDB.getDouble("entertainmentBudget", 1)) * 100));
             } else if (position == 3) {
                 holder.name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_directions_transit, 0, 0, 0);
-                holder.bar.setProgress((int) (tinyDB.getDouble("Auto and Transport", 0) / tinyDB.getDouble("transportationBudget", 1)));
+                holder.bar.setProgress((int) ((tinyDB.getDouble("Auto and Transport", 0) / tinyDB.getDouble("transportationBudget", 1)) * 100));
 
             }
             convertView.setTag(holder);
