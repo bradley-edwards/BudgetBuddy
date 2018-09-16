@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.htn.budgetbuddy">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +20,10 @@
         </activity>
         <activity android:name="com.htn.budgetbuddy.HomeActivity"></activity>
         <activity android:name="com.htn.budgetbuddy.SettingsActivity"></activity>
+        <activity android:name="com.htn.budgetbuddy.SuggestionsActivityFood"></activity>
+        <activity android:name="com.htn.budgetbuddy.SuggestionsActivityShopping"></activity>
         <activity android:name="com.htn.budgetbuddy.SuggestionsActivityEntertainment"></activity>
+        <activity android:name="com.htn.budgetbuddy.SuggestionsActivityTransportation"></activity>
 
     </application>
 

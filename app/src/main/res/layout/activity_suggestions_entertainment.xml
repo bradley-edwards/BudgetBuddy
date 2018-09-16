@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Suggestions"
+        android:text="Entertainment Suggestions"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
@@ -74,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/suggestionsEntertainment_layout_options"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"/>
+        android:paddingRight="20dp"
+        android:dividerHeight="3.0sp"/>
 
 </RelativeLayout>
