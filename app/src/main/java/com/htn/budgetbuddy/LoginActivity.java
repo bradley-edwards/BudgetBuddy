@@ -23,7 +23,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -190,11 +192,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 JSONArray foundTransactions = json.getJSONArray("result");
                                 Gson gson = new Gson();
                                 ArrayList<Transaction> transactions = new ArrayList<>();
+                                ArrayList<Transaction> monthTransactions = new ArrayList<>();
+                                ArrayList<String> usedNames = new ArrayList<>();
+
                                 for (int i = 0; i < foundTransactions.length(); ++i) {
                                     JSONObject tran = foundTransactions.getJSONObject(i);
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                                     SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                                     Date tranDate = null;
+
+                                    if (usedNames.contains(tran.getString("merchantName"))) {
+                                        continue;
+                                    }
+
+                                    usedNames.add(tran.getString("merchantName"));
+
                                     try {
                                         String strDate = tran.getString("originationDateTime");
                                         if (strDate.length() == 20) {
@@ -205,15 +217,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
-                                    Date today = new Date();
-                                    int days = daysBetween(today, tranDate);
-                                    if (days <= 30) {
+                                    Date date = new Date();
+                                    int days = daysBetween(date, tranDate);
+
+                                    if (days <= 10) {
                                         transactions.add(gson.fromJson(foundTransactions.getJSONObject(i).toString(), Transaction.class));
+                                    }
+
+                                    if (sameMonth(date, tranDate)) {
+                                        monthTransactions.add(gson.fromJson(foundTransactions.getJSONObject(i).toString(), Transaction.class));
                                     }
                                 }
                                 tinyDB.putListTransactions("transactions", transactions);
+                                tinyDB.putListTransactions("monthTransactions", monthTransactions);
                             } else {
-                                tinyDB.getListTransaction("transactions");
                             }
                             openHomeActivity();
                         } catch (JSONException e) {
@@ -223,6 +240,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 });
             }
         });
+    }
+
+    public boolean sameMonth(Date date1, Date date2){
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(date1);
+        cal2.setTime(date2);
+        boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+        return sameDay;
     }
 
     public int daysBetween(Date d1, Date d2){

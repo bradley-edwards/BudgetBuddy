@@ -21,6 +21,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TextView nameText;
     private ImageButton suggestionsImageButton, settingsImageButton, transactionsImageButton;
     private ListView progressList;
+    private ProgressAdapter progressAdapter;
 
     private TinyDB tinyDB;
 
@@ -43,7 +44,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         list.add("Entertainment");
         list.add("Transportation");
 
-        ProgressAdapter progressAdapter = new ProgressAdapter(this, list);
+        progressAdapter = new ProgressAdapter(this, list);
 
         progressList.setAdapter(progressAdapter);
 
@@ -58,6 +59,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_imageButton_suggestions:
+                openSuggestionsActivity();
                 break;
             case R.id.home_imageButton_settings:
                 openSettingsActivity();
@@ -69,6 +71,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openSettingsActivity() {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSuggestionsActivity() {
+        Intent intent = new Intent(this, SuggestionsActivityEntertainment.class);
         startActivity(intent);
     }
 }
