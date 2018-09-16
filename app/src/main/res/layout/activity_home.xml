@@ -174,7 +174,7 @@
 "
                 android:textColor="@color/colorBlack"
                 android:textSize="20dp"
-                android:text="8 Days Left"/>
+                android:text="15 Days Left"/>
 
         </LinearLayout>
 

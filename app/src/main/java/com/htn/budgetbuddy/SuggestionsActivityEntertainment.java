@@ -169,7 +169,7 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
                                                                     continue;
                                                                 }
 
-                                                                if (yelpTwoArray.getJSONObject(i).getString("price").length() <= price) {
+                                                                if (yelpTwoArray.getJSONObject(i).getString("price").length() < price) {
                                                                     Suggestion recommend = new Suggestion();
                                                                     recommend.setCurrentName(termOne);
                                                                     recommend.setCurrentURL(oldURL);
