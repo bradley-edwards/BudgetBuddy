@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.htn.budgetbuddy.HomeActivity"></activity>
+        <activity android:name="com.htn.budgetbuddy.SettingsActivity"></activity>
     </application>
 
 </manifest>
