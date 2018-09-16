@@ -21,7 +21,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -114,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             tinyDB.putString("customerId", customerId);
                             tinyDB.putString("customerId", customerId);
                             tinyDB.putString("givenName", json.has("givenName") ? json.getString("givenName") : "");
-                            tinyDB.putString("maidenName", json.has("maidenName") ? json.getString("maidenName") : "");
+                            tinyDB.putString("surName", json.has("surName") ? json.getString("surName") : "");
                             tinyDB.putString("totalIncome", json.has("totalIncome") ? json.getString("totalIncome") : "");
 
                             if (json.has("maskedRelatedBankAccounts") &&
@@ -141,6 +144,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     tinyDB.putListString("creditCardAccounts", creditCardAccountIds);
                                 }
                             }
+
+                            getTransaction(customerId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -148,6 +153,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 });
             }
         });
+    }
+
+    private void getTransaction(String customerId) {
+
+        OkHttpClient client = new OkHttpClient();
 
         final Request transactionRequest = new Request.Builder()
                 .url(Constants.BASE_URL + "/customers/" + customerId + "/transactions")
@@ -181,26 +191,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Gson gson = new Gson();
                                 ArrayList<Transaction> transactions = new ArrayList<>();
                                 for (int i = 0; i < foundTransactions.length(); ++i) {
-                                    transactions.add(gson.fromJson(foundTransactions.getJSONObject(i).toString(), Transaction.class));
+                                    JSONObject tran = foundTransactions.getJSONObject(i);
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                                    SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                                    Date tranDate = null;
+                                    try {
+                                        String strDate = tran.getString("originationDateTime");
+                                        if (strDate.length() == 20) {
+                                            tranDate = dateFormat.parse(tran.getString("originationDateTime"));
+                                        } else {
+                                            tranDate = dateFormat2.parse(tran.getString("originationDateTime"));
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Date today = new Date();
+                                    int days = daysBetween(today, tranDate);
+                                    if (days <= 30) {
+                                        transactions.add(gson.fromJson(foundTransactions.getJSONObject(i).toString(), Transaction.class));
+                                    }
                                 }
                                 tinyDB.putListTransactions("transactions", transactions);
                             } else {
                                 tinyDB.getListTransaction("transactions");
                             }
+                            openHomeActivity();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
-
-                openMainActivity();
             }
         });
-
-        openMainActivity();
     }
 
-    private void openMainActivity() {
+    public int daysBetween(Date d1, Date d2){
+        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+    }
+
+    private void openHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
