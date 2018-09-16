@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.htn.budgetbuddy.models.Transaction;
 import com.htn.budgetbuddy.utils.Constants;
+import com.htn.budgetbuddy.utils.TinyDB;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +22,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,8 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button loginButton;
     private EditText usernameEdit;
 
-    FirebaseDatabase database;
-    DatabaseReference userRef;
+    private TinyDB tinyDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         context = this;
 
-        database = FirebaseDatabase.getInstance();
+        tinyDB = new TinyDB(this);
 
         loginButton = findViewById(R.id.login_button_login);
         usernameEdit = findViewById(R.id.login_edit_username);
@@ -78,8 +80,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        userRef = database.getReference("user/" + username);
-
         final String customerId = Constants.NAME_CUSTOMERID_MAP.get(username);
 
         OkHttpClient client = new OkHttpClient();
@@ -111,31 +111,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Toast.makeText(context, json.getString("errorMsg"), Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            userRef.child("customerId").setValue(customerId);
-                            userRef.child("givenName").setValue(json.has("givenName") ? json.getString("givenName") : "");
-                            userRef.child("maidenName").setValue(json.has("maidenName") ? json.getString("maidenName") : "");
-                            userRef.child("totalIncome").setValue(json.has("totalIncome") ? json.getString("totalIncome") : "");
+                            tinyDB.putString("customerId", customerId);
+                            tinyDB.putString("customerId", customerId);
+                            tinyDB.putString("givenName", json.has("givenName") ? json.getString("givenName") : "");
+                            tinyDB.putString("maidenName", json.has("maidenName") ? json.getString("maidenName") : "");
+                            tinyDB.putString("totalIncome", json.has("totalIncome") ? json.getString("totalIncome") : "");
+
                             if (json.has("maskedRelatedBankAccounts") &&
                                     json.getJSONObject("maskedRelatedBankAccounts").has("individual")) {
                                 JSONArray bankAccounts = json.getJSONObject("maskedRelatedBankAccounts").getJSONArray("individual");
-                                List<String> bankAccountIds = new ArrayList<>();
+                                ArrayList<String> bankAccountIds = new ArrayList<>();
                                 for (int i = 0; i < bankAccounts.length(); ++i) {
                                     bankAccountIds.add(bankAccounts.getJSONObject(i).getString("accountId"));
                                 }
-                                userRef.child("bankAccounts").setValue(bankAccountIds);
-                            } else {
-                                userRef.child("bankAccounts").setValue(null);
+
+                                if (!bankAccountIds.isEmpty()) {
+                                    tinyDB.putListString("bankAccounts", bankAccountIds);
+                                }
+
                             }
                             if (json.has("maskedRelatedCreditCardAccounts") &&
                                     json.getJSONObject("maskedRelatedCreditCardAccounts").has("individual")) {
-                                JSONArray bankAccounts = json.getJSONObject("maskedRelatedCreditCardAccounts").getJSONArray("authorized");
-                                List<String> bankAccountIds = new ArrayList<>();
-                                for (int i = 0; i < bankAccounts.length(); ++i) {
-                                    bankAccountIds.add(bankAccounts.getJSONObject(i).getString("accountId"));
+                                JSONArray creditCardAccounts = json.getJSONObject("maskedRelatedCreditCardAccounts").getJSONArray("authorized");
+                                ArrayList<String> creditCardAccountIds = new ArrayList<>();
+                                for (int i = 0; i < creditCardAccounts.length(); ++i) {
+                                    creditCardAccountIds.add(creditCardAccounts.getJSONObject(i).getString("accountId"));
                                 }
-                                userRef.child("creditCardAccounts").setValue(bankAccountIds);
-                            } else {
-                                userRef.child("creditCardAccounts").setValue(null);
+                                if (!creditCardAccountIds.isEmpty()) {
+                                    tinyDB.putListString("creditCardAccounts", creditCardAccountIds);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -175,13 +179,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (json.has("result")) {
                                 JSONArray foundTransactions = json.getJSONArray("result");
                                 Gson gson = new Gson();
-                                List<Transaction> transactions = new ArrayList<>();
+                                ArrayList<Transaction> transactions = new ArrayList<>();
                                 for (int i = 0; i < foundTransactions.length(); ++i) {
                                     transactions.add(gson.fromJson(foundTransactions.getJSONObject(i).toString(), Transaction.class));
                                 }
-                                userRef.child("transactions").setValue(transactions);
+                                tinyDB.putListTransactions("transactions", transactions);
                             } else {
-                                userRef.child("transactions").setValue(null);
+                                tinyDB.getListTransaction("transactions");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -197,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void openMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 }

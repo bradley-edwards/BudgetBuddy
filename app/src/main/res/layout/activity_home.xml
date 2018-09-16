@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_opaque"
 
-                tools:context=".MainActivity">
+                tools:context=".HomeActivity">
 
     <LinearLayout
         android:id="@+id/home_layout_info"
