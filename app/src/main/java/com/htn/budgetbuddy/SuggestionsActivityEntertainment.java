@@ -2,10 +2,12 @@ package com.htn.budgetbuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,6 +33,9 @@ import okhttp3.Response;
 public class SuggestionsActivityEntertainment extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton backButton;
+    private ListView suggestionList;
+    private SuggestionAdapter suggestionAdapter;
+
 
     private TinyDB tinyDB;
 
@@ -42,6 +47,14 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
         tinyDB = new TinyDB(this);
 
         backButton = findViewById(R.id.suggestions_imageButton_leftArrow);
+        suggestionList = findViewById(R.id.suggestionsEntertainment_list_suggestions);
+
+        List<String> list = new ArrayList<String>();
+
+        suggestionAdapter = new SuggestionAdapter(this, list);
+
+        suggestionList.setAdapter(suggestionAdapter);
+
         backButton.setOnClickListener(this);
         try {
             getSuggestions();
@@ -77,6 +90,11 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
             final String termOne = transactions.get(i).getMerchantName();
             final String category = transactions.get(i).getCategoryTags().get(0);
 
+            if (location == null || location.isEmpty() || termOne == null || termOne.isEmpty()
+                    || category == null || category.isEmpty()) {
+                continue;
+            }
+
             Request yelpOne = new Request.Builder()
                     .url(Constants.YELP_URL + "/businesses/search?" + "location=" + location + "&term=" + termOne)
                     .addHeader("Authorization", "Bearer " + Constants.YELP_KEY)
@@ -92,70 +110,86 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
                 public void onResponse(Call call, Response response) throws IOException {
 
                     final String result = response.body().string();
+                    SystemClock.sleep(500);
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                JSONObject yelpOneJSON = new JSONObject(result).getJSONObject("result");
-                                String termTwo = yelpOneJSON.getJSONArray("businesses").getJSONObject(0).getJSONArray("categories").getJSONObject(0).getString("alias");
-                                final int price = yelpOneJSON.getJSONArray("businesses").getJSONObject(0).getString("price").length();
-                                final String oldURL = yelpOneJSON.getJSONArray("businesses").getJSONObject(0).getString("image_url");
+                                JSONObject yelpOneJSON = new JSONObject(result);
+                                if (yelpOneJSON.has("businesses")) {
 
-                                final Request yelpTwo = new Request.Builder()
-                                        .url(Constants.YELP_URL + "/businesses/search?" + "location=" + location + "&term=" + termTwo)
-                                        .addHeader("Authorization", Constants.YELP_KEY)
-                                        .build();
+                                    JSONArray businessArr = yelpOneJSON.getJSONArray("businesses");
+                                    String termTwo = businessArr.getJSONObject(0).getJSONArray("categories").getJSONObject(0).getString("alias");
+                                    final int price = yelpOneJSON.getJSONArray("businesses").getJSONObject(0).getString("price").length();
+                                    final String oldURL = yelpOneJSON.getJSONArray("businesses").getJSONObject(0).getString("image_url");
 
-                                client.newCall(yelpTwo).enqueue(new Callback() {
-                                    @Override
-                                    public void onFailure(Call call, IOException e) {
-                                        call.cancel();
-                                    }
+                                    final Request yelpTwo = new Request.Builder()
+                                            .url(Constants.YELP_URL + "/businesses/search?" + "location=" + location + "&term=" + termTwo)
+                                            .addHeader("Authorization", "Bearer " + Constants.YELP_KEY)
+                                            .build();
 
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
+                                    client.newCall(yelpTwo).enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(Call call, IOException e) {
+                                            call.cancel();
+                                        }
 
-                                        final String result = response.body().string();
+                                        @Override
+                                        public void onResponse(Call call, Response response) throws IOException {
 
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    JSONObject yelpTwoJSON = new JSONObject(result);
-                                                    //find the correct suggestion (if any exist)
-                                                    JSONArray yelpTwoArray = yelpTwoJSON.getJSONArray("businesses");
-                                                    int arrLen = yelpTwoArray.length();
-                                                    for (int i=0; i<arrLen; i++) {
-                                                        if (yelpTwoArray.getJSONObject(i).getString("price").length() < price) {
-                                                            Suggestion recommend = new Suggestion();
-                                                            recommend.setCurrentName(termOne);
-                                                            recommend.setCurrentURL(oldURL);
-                                                            recommend.setSuggestedName(yelpTwoArray.getJSONObject(i).getString("name"));
-                                                            recommend.setSuggestedURL(yelpTwoArray.getJSONObject(i).getString("image_url"));
+                                            final String result = response.body().string();
 
-                                                            if (category == "Food and Dining") {
-                                                                food.add(recommend);
-                                                            } else if (category == "Home") {
-                                                                shopping.add(recommend);
-                                                            } else if (category == "Auto and Transport") {
-                                                                transportation.add(recommend);
-                                                            } else if (category == "Entertainment") {
-                                                                entertainment.add(recommend);
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        JSONObject yelpTwoJSON = new JSONObject(result);
+                                                        //find the correct suggestion (if any exist)
+                                                        if (yelpTwoJSON.has("businesses")) {
+                                                            JSONArray yelpTwoArray = yelpTwoJSON.getJSONArray("businesses");
+
+                                                            int arrLen = yelpTwoArray.length();
+                                                            for (int i = 0; i < arrLen; i++) {
+                                                                if (!yelpTwoArray.getJSONObject(i).has("price")) {
+                                                                    continue;
+                                                                }
+
+                                                                if (yelpTwoArray.getJSONObject(i).getString("price").length() <= price) {
+                                                                    Suggestion recommend = new Suggestion();
+                                                                    recommend.setCurrentName(termOne);
+                                                                    recommend.setCurrentURL(oldURL);
+                                                                    recommend.setSuggestedName(yelpTwoArray.getJSONObject(i).getString("name"));
+                                                                    recommend.setSuggestedURL(yelpTwoArray.getJSONObject(i).getString("image_url"));
+
+                                                                    System.out.println(recommend.toString());
+
+                                                                    if (category == "Food and Dining") {
+                                                                        food.add(recommend);
+                                                                    } else if (category == "Home") {
+                                                                        shopping.add(recommend);
+                                                                    } else if (category == "Auto and Transport") {
+                                                                        transportation.add(recommend);
+                                                                    } else if (category == "Entertainment") {
+                                                                        entertainment.add(recommend);
+                                                                    }
+
+                                                                    suggestionAdapter.addItem("Replace " + recommend.getCurrentName() + " with " + recommend.getSuggestedName() + "!");
+
+                                                                    return;
+                                                                }
                                                             }
+
+                                                            //add suggestion to the correct ArrayList
                                                         }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
                                                     }
-
-                                                    //add suggestion to the correct ArrayList
-
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
                                                 }
-                                            }
-                                        });
-                                    }
-                                });
-
+                                            });
+                                        }
+                                    });
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

@@ -37,4 +37,14 @@ public class Suggestion {
     public void setSuggestedURL(String suggestedURL) {
         this.suggestedURL = suggestedURL;
     }
+
+    @Override
+    public String toString() {
+        return "Suggestion{" +
+                "currentName='" + currentName + '\'' +
+                ", suggestedName='" + suggestedName + '\'' +
+                ", currentURL='" + currentURL + '\'' +
+                ", suggestedURL='" + suggestedURL + '\'' +
+                '}';
+    }
 }
