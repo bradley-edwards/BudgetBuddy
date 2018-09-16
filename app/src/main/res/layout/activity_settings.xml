@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_opaque"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/settings_layout_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/settings_image_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_budgetbuddy" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:text="Select Your Budget for the Month"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_text_groceries"
+        android:text="Groceries"
+        android:textSize="16dp"
+        android:layout_below="@id/settings_layout_title"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="50dp"/>
+
+    <EditText
+        android:id="@+id/settings_edit_groceries"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_attach_money"
+        android:drawablePadding="10dp"
+        android:inputType="textNoSuggestions"
+        android:textColorHint="@color/colorGrey"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/settings_text_groceries"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_text_diningOut"
+        android:text="Dining Out"
+        android:textSize="16dp"
+        android:layout_below="@id/settings_edit_groceries"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="50dp"/>
+
+    <EditText
+        android:id="@+id/settings_edit_diningOut"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_attach_money"
+        android:drawablePadding="10dp"
+        android:inputType="textNoSuggestions"
+        android:textColorHint="@color/colorGrey"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/settings_text_diningOut"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_text_shopping"
+        android:text="Shopping"
+        android:textSize="16dp"
+        android:layout_below="@id/settings_edit_diningOut"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="50dp"/>
+
+    <EditText
+        android:id="@+id/settings_edit_shopping"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_attach_money"
+        android:drawablePadding="10dp"
+        android:inputType="textNoSuggestions"
+        android:textColorHint="@color/colorGrey"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@id/settings_text_shopping"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/settings_button_save"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settings_edit_shopping"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_round_button"
+        android:text="Save"
+        android:textColor="@color/colorWhite" />
+
+</RelativeLayout>
