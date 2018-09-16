@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.htn.budgetbuddy.models.Suggestion;
 import com.htn.budgetbuddy.models.Transaction;
 import com.htn.budgetbuddy.utils.Constants;
@@ -30,9 +27,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SuggestionsActivityEntertainment extends AppCompatActivity implements View.OnClickListener {
+public class SuggestionsActivityShopping extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageButton backButton, shoppingButton, foodButton, transportationButton;
+    private ImageButton backButton, foodButton, entertainmentButton, transportationButton;
     private ListView suggestionList;
     private SuggestionAdapter suggestionAdapter;
 
@@ -41,15 +38,15 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_suggestions_entertainment);
+        setContentView(R.layout.activity_suggestions_shopping);
 
         tinyDB = new TinyDB(this);
 
         backButton = findViewById(R.id.suggestions_imageButton_leftArrow);
-        shoppingButton = findViewById(R.id.suggestionsEntertainment_button_shopping);
-        foodButton = findViewById(R.id.suggestionsEntertainment_button_food);
-        transportationButton = findViewById(R.id.suggestionsEntertainment_button_transportation);
-        suggestionList = findViewById(R.id.suggestionsEntertainment_list_suggestions);
+        foodButton = findViewById(R.id.suggestionsShopping_button_food);
+        entertainmentButton = findViewById(R.id.suggestionsShopping_button_entertainment);
+        transportationButton = findViewById(R.id.suggestionsShopping_button_transportation);
+        suggestionList = findViewById(R.id.suggestionsShopping_list_suggestions);
 
         List<Suggestion> list = new ArrayList<>();
 
@@ -58,8 +55,8 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
         suggestionList.setAdapter(suggestionAdapter);
 
         backButton.setOnClickListener(this);
-        shoppingButton.setOnClickListener(this);
         foodButton.setOnClickListener(this);
+        entertainmentButton.setOnClickListener(this);
         transportationButton.setOnClickListener(this);
 
         try {
@@ -75,13 +72,13 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
             case R.id.suggestions_imageButton_leftArrow:
                 openMainActivity();
                 break;
-            case R.id.suggestionsEntertainment_button_shopping:
-                openShoppingActivity();
-                break;
-            case R.id.suggestionsEntertainment_button_food:
+            case R.id.suggestionsShopping_button_food:
                 openFoodActivity();
                 break;
-            case R.id.suggestionsEntertainment_button_transportation:
+            case R.id.suggestionsShopping_button_entertainment:
+                openEntertainmentActivity();
+                break;
+            case R.id.suggestionsShopping_button_transportation:
                 openTransportationActivity();
                 break;
         }
@@ -187,7 +184,7 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
                                                                     } else if (category == "Entertainment") {
                                                                         entertainment.add(recommend);
                                                                     }*/
-                                                                    if (category.equalsIgnoreCase("Entertainment")) {
+                                                                    if (category.equalsIgnoreCase("Home") || category.equalsIgnoreCase("Shopping")) {
                                                                         suggestionAdapter.addItem(recommend);                                                                    }
                                                                     return;
                                                                 }
@@ -218,11 +215,6 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
         startActivity(intent);
     }
 
-    private void openShoppingActivity() {
-        Intent intent = new Intent(this, SuggestionsActivityShopping.class);
-        startActivity(intent);
-    }
-
     private void openFoodActivity() {
         Intent intent = new Intent(this, SuggestionsActivityFood.class);
         startActivity(intent);
@@ -230,6 +222,11 @@ public class SuggestionsActivityEntertainment extends AppCompatActivity implemen
 
     private void openTransportationActivity() {
         Intent intent = new Intent(this, SuggestionsActivityTransportation.class);
+        startActivity(intent);
+    }
+
+    private void openEntertainmentActivity() {
+        Intent intent = new Intent(this, SuggestionsActivityEntertainment.class);
         startActivity(intent);
     }
 }

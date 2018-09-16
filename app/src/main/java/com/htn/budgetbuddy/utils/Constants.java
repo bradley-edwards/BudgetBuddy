@@ -15,5 +15,5 @@ public class Constants {
     public static String BASE_URL = "https://api.td-davinci.com/api";
     public static String API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDQlAiLCJ0ZWFtX2lkIjoiMTAxZWUxZjAtNmIxMS0zNzk0LWEzYmEtYTYzODYzNzJlZWZiIiwiZXhwIjo5MjIzMzcyMDM2ODU0Nzc1LCJhcHBfaWQiOiJjYWVhMDYxNy1hYzRkLTQ0ZjMtOGFiYi01MDg5NmE4NWYzMDcifQ.atJFXjgEf3tlZbckYwzLXxMj7Nw5QxDq38gtJ1oIv2o";
     public static String YELP_URL = "https://api.yelp.com/v3";
-    public static String YELP_KEY = "H6hTSUerr5fRlCfbA2ZqMMR61x-R6xIjEzaMcW9HSgr_HORJmn2KDza4cbV2aZ_7WQ0zrZntI_avEtaEg6al7hQ2yypWj3sA5ECgRA5qVm4VgtX6EFq56w7FeFCdW3Yx";
+    public static String YELP_KEY = "2nwmkSx5sBLHwp8pVLyMZJyRaIXe0KTc0jUBafzA-Izng2hx6H7IkxC-ZfNNkHYOR0q4nWZQWV774v9MAxWXKo7G5JiRznZkFDTmYmF1kElc1p6MhyRVAkgtj0udW3Yx";
 }

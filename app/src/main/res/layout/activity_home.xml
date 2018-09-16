@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/home_layout_info"
         android:layout_width="match_parent"
-        android:layout_height="290dp"
+        android:layout_height="310dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_opaque_cropped"
         android:gravity="center"
@@ -173,7 +173,7 @@
                 android:layout_gravity="center
 "
                 android:textColor="@color/colorBlack"
-                android:textSize="28dp"
+                android:textSize="20dp"
                 android:text="8 Days Left"/>
 
         </LinearLayout>
