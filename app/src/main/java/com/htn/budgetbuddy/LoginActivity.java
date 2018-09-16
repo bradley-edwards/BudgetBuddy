@@ -277,7 +277,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             } else if (cat.equalsIgnoreCase("Home")) {
                 shopSpent += amount;
             } else if (cat.equalsIgnoreCase("Food and Dining")) {
-                foodSpent += amount;
+                foodSpent -= amount;
             } else if (cat.equalsIgnoreCase("Auto and Transport")) {
                 transSpent += amount;
             }

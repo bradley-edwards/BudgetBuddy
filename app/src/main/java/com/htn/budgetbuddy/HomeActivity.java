@@ -75,7 +75,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void openSuggestionsActivity() {
-        Intent intent = new Intent(this, SuggestionsActivityEntertainment.class);
+        Intent intent = new Intent(this, SuggestionsActivityShopping.class);
         startActivity(intent);
     }
 }
